@@ -59,6 +59,7 @@ $routes->scope('/', function (RouteBuilder $builder) {
 
     $builder->connect('/addBudget', 'Pages::addBudget');
     $builder->connect('/generateCosts', 'Pages::generateCosts');
+    $builder->connect('/showHistory.json', 'Pages::showHistory');
 
     /*
      * Connect catchall routes for all controllers.

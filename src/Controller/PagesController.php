@@ -65,9 +65,9 @@ class PagesController extends AppController
             $page = $path[0];
         }
 
-        $budget = $this->paginate($this->Budget);
+        $lastBudget = $this->getLastBudget();
 
-        $this->set(compact('page', 'budget'));
+        $this->set(compact('page', 'lastBudget'));
 
         try {
             return $this->render(implode('/', $path));
@@ -148,6 +148,27 @@ class PagesController extends AppController
         }
 
         return $this->redirect('/');
+    }
+
+    public function showHistory()
+    {
+        $success = true;
+        $data = [];
+        $msg = '';
+
+        $threeMonthsAgo = date('Y-m', strtotime('-2 month'));
+        $budgets = $this->Budget->find()->where(['date >= ' => $threeMonthsAgo . '%'])->all();
+        $costs = $this->Costs->find()->where(['date >= ' => $threeMonthsAgo . '%'])->all();
+
+        $datesList = $this->getDateList($threeMonthsAgo);
+
+        $finalData = $this->setFinalData($datesList, $budgets, $costs);
+
+        $data = ['finalData' => $finalData];
+
+        $this->set(compact('data', 'success', 'msg'));
+        $this->viewBuilder()->setOption('serialize', true);
+        $this->RequestHandler->renderAs($this, 'json');
     }
 
     /**
@@ -305,5 +326,78 @@ class PagesController extends AppController
         $maxRand *= 100;
 
         return mt_rand(0, (int)$maxRand) / 100;
+    }
+
+    /**
+     * @param $threeMonthsAgo
+     * @return array
+     */
+    private function getDateList($threeMonthsAgo)
+    {
+        $dates = [];
+
+        $startDate = $threeMonthsAgo . '-01';
+        $endDate = date('Y-m-d');
+
+        while (strtotime($startDate) <= strtotime($endDate)) {
+            array_push($dates, $startDate);
+            $startDate = date('Y-m-d', strtotime('+1 day', strtotime($startDate)));
+        }
+
+        return $dates;
+    }
+
+    /**
+     * @param $dates
+     * @param $bugets
+     * @param $costs
+     */
+    private function setFinalData($dates, $budgets, $costs)
+    {
+        $data = [];
+
+        foreach ($dates as $k => $date) {
+            $data[$k]['date'] = $date;
+            $data[$k]['maxBudget'] = $this->setMaxBudgetPerDay($budgets, $date);
+            $data[$k]['dailyCosts'] = $this->setDailyCosts($costs, $date);
+        }
+
+        return $data;
+    }
+
+    /**
+     * @param $budgets
+     * @param $date
+     * @return int
+     */
+    private function setMaxBudgetPerDay($budgets, $date)
+    {
+        $maxBudget = 0;
+
+        foreach ($budgets as $budget) {
+            if ($budget['date']->format('Y-m-d') == $date && $budget['budget'] > $maxBudget) {
+                $maxBudget = $budget['budget'];
+            }
+        }
+
+        return $maxBudget;
+    }
+
+    /**
+     * @param $costs
+     * @param $date
+     * @return int
+     */
+    private function setDailyCosts($costs, $date)
+    {
+        $dailyCosts = 0;
+
+        foreach ($costs as $cost) {
+            if ($cost['date']->format('Y-m-d') === $date) {
+                $dailyCosts += $cost['costs'];
+            }
+        }
+
+        return $dailyCosts;
     }
 }

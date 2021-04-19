@@ -11,6 +11,13 @@
     font-style: normal;
 }
 
+.current-cost {
+    font-weight: bold;
+    margin-top: 30px;
+    color: #606c76;
+    text-align: center;
+}
+
 .budget-forms {
     display: flex;
     align-items: flex-start;
@@ -18,7 +25,8 @@
 
 .budget-form,
 .pause-budget-form,
-.generate-costs-form {
+.generate-costs-form,
+.history-data-form {
     margin-top: 30px;
     display: flex;
     align-items: center;
@@ -32,65 +40,13 @@
 
 .budget-form button,
 .pause-budget-form button,
-.generate-costs-form button {
+.generate-costs-form button,
+.history-data-form button {
     margin-left: 15px;
     margin-bottom: 16px;
-}
-
-.budget-form button.active {
-    opacity: .5;
 }
 
 .budget-form input {
     width: 215px;
     height: 36px;
-}
-
-.generate-costs-container {
-    margin-top: 60px;
-    display: flex;
-    align-items: center;
-}
-
-.generate-costs-button {
-    margin-bottom: 0;
-}
-
-.generated-costs {
-    align-items: center;
-    border: 1px solid #e0e0e0;
-    border-radius: 5px;
-    display: inline-flex;
-    padding: 5px 10px;
-    margin-left: 15px;
-    margin-right: 15px;
-    min-width: 50px;
-    height: 38px;
-}
-
-.generate-costs-container label {
-    margin-bottom: 0;
-}
-
-.data-form {
-    margin-top: 70px;
-}
-
-.data-form div {
-    display: flex;
-    align-items: center;
-}
-
-.data-form label {
-    min-width: 100px;
-    margin-right: 15px;
-}
-
-.data-form .separator {
-    display: inline-block;
-    margin: 0 16px 16px;
-}
-
-.data-table {
-    margin-top: 40px;
 }
