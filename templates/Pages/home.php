@@ -1,3 +1,10 @@
+<?php
+/**
+ * @var \App\View\AppView $this
+ * @var \App\Model\Entity\Budget $budget
+ */
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -6,18 +13,22 @@
 </head>
 <body>
 <div>
-    <form class="budget-form" id="budgetForm" data-action="">
-            <label for="budget">Set budget</label>
-            <input type="number" id="budget"/>
-            <button class="active">Set new budget</button>
-            <button>Pause budget</button>
-    </form>
+    <div class="budget-forms">
+        <?= $this->Form->create(null, ['class' => 'budget-form', 'url' => '/addBudget']) ?>
+        <label for="budget">Set budget</label>
+        <?= $this->Form->control('budget', ['label' => false, 'required' => true, 'type' => 'number']) ?>
+        <?= $this->Form->button('Set new budget') ?>
+        <?= $this->Form->end() ?>
 
-    <p class="generate-costs-container">
-        <label>Generated costs</label>
-        <span class="generated-costs"></span>
-        <button class="generate-costs-button">Generate costs</button>
-    </p>
+        <?= $this->Form->create(null, ['class' => 'pause-budget-form', 'url' => '/addBudget']) ?>
+        <?= $this->Form->control('budget', ['label' => false, 'required' => true, 'type' => 'hidden', 'value' => '0']) ?>
+        <?= $this->Form->button('Pause budget') ?>
+        <?= $this->Form->end() ?>
+
+        <?= $this->Form->create(null, ['class' => 'generate-costs-form', 'url' => '/generateCosts']) ?>
+        <?= $this->Form->button('Generate costs') ?>
+        <?= $this->Form->end() ?>
+    </div>
 
     <form class="data-form" id="dataForm" data-action="">
         <div>
@@ -30,7 +41,7 @@
         <button>Get data</button>
     </form>
 
-    <table>
+    <table class="data-table">
         <thead>
         <tr>
             <th>Date</th>

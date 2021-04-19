@@ -23,9 +23,9 @@ class BudgetFixture extends TestFixture
      */
     // phpcs:disable
     public $fields = [
-        'date' => ['type' => 'datetime', 'length' => null, 'precision' => null, 'null' => false, 'default' => null, 'comment' => ''],
-        'budget' => ['type' => 'integer', 'length' => null, 'unsigned' => false, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null, 'autoIncrement' => null],
         'id' => ['type' => 'integer', 'length' => null, 'unsigned' => false, 'null' => false, 'default' => null, 'comment' => '', 'autoIncrement' => true, 'precision' => null],
+        'date' => ['type' => 'datetime', 'length' => null, 'precision' => null, 'null' => false, 'default' => null, 'comment' => ''],
+        'budget' => ['type' => 'float', 'length' => null, 'precision' => null, 'unsigned' => false, 'null' => false, 'default' => null, 'comment' => ''],
         '_constraints' => [
             'primary' => ['type' => 'primary', 'columns' => ['id'], 'length' => []],
         ],
@@ -44,9 +44,9 @@ class BudgetFixture extends TestFixture
     {
         $this->records = [
             [
-                'date' => '2021-04-17 01:52:05',
-                'budget' => 1,
                 'id' => 1,
+                'date' => '2021-04-18 19:22:22',
+                'budget' => 1,
             ],
         ];
         parent::init();

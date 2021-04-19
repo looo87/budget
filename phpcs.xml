@@ -2,5 +2,11 @@
 <ruleset name="App">
     <config name="installed_paths" value="../../cakephp/cakephp-codesniffer"/>
 
-    <rule ref="CakePHP"/>
+    <rule ref="CakePHP">
+        <exclude name="Generic.Files.LineLength"/>
+        <exclude name="PEAR.Commenting.FunctionComment.MissingParamComment"/>
+        <exclude name="PEAR.Commenting.FunctionComment.Missing"/>
+        <exclude name="PEAR.Commenting.FunctionComment.MissingReturn"/>
+        <exclude name="PEAR.Commenting.FunctionComment.MissingParamTag"/>
+    </rule>
 </ruleset>
