@@ -156,16 +156,20 @@ class PagesController extends AppController
         $data = [];
         $msg = '';
 
-        $threeMonthsAgo = date('Y-m', strtotime('-2 month'));
-        $budgets = $this->Budget->find()->where(['date >= ' => $threeMonthsAgo . '%'])->all();
-        $costs = $this->Costs->find()->where(['date >= ' => $threeMonthsAgo . '%'])->all();
+        try {
+            $threeMonthsAgo = date('Y-m', strtotime('-2 month'));
+            $budgets = $this->Budget->find()->where(['date >= ' => $threeMonthsAgo . '%'])->all();
+            $costs = $this->Costs->find()->where(['date >= ' => $threeMonthsAgo . '%'])->all();
 
-        $datesList = $this->getDateList($threeMonthsAgo);
+            $datesList = $this->getDateList($threeMonthsAgo);
 
-        $finalData = $this->setFinalData($datesList, $budgets, $costs);
+            $finalData = $this->setFinalData($datesList, $budgets, $costs);
 
-        $data = ['finalData' => $finalData];
-
+            $data = ['finalData' => $finalData];
+        } catch (\Exception $e) {
+            $success = false;
+            $msg = 'Error' . $e;
+        }
         $this->set(compact('data', 'success', 'msg'));
         $this->viewBuilder()->setOption('serialize', true);
         $this->RequestHandler->renderAs($this, 'json');
